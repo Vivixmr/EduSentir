@@ -1,0 +1,32 @@
+{
+  "name": "edusentir",
+  "version": "1.0.0",
+  "description": "Aplicativo mobile para acompanhamento do desenvolvimento de alunos e filhos com deficiencia.",
+  "scripts": {
+    "start": "npx serve src/src/renderer",
+    "build": "node -e \"const fs=require('fs'); const required=['src/src/renderer/index.html','src/src/renderer/mobile-api.js','src/src/renderer/app-main.js','src/src/renderer/vendor/jspdf.umd.min.js']; const missing=required.filter((file)=>!fs.existsSync(file)); if(missing.length){console.error('Arquivos obrigatorios ausentes:', missing.join(', ')); process.exit(1);} console.log('Aplicacao web estatica pronta em src/src/renderer')\"",
+    "android:add": "npx cap add android",
+    "android:sync": "npx cap sync android",
+    "android:open": "npx cap open android"
+  },
+  "keywords": [
+    "android",
+    "capacitor",
+    "educacao",
+    "acompanhamento",
+    "desenvolvimento"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@capacitor/android": "^7.0.1",
+    "@capacitor/core": "^7.0.1",
+    "@capacitor/filesystem": "^7.1.0",
+    "@capacitor/share": "^7.0.1",
+    "jspdf": "^4.2.1"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^7.0.1",
+    "serve": "^14.2.4"
+  }
+}

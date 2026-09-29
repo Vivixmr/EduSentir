@@ -1,0 +1,9 @@
+{
+  "appId": "com.edusentir.mobile",
+  "appName": "Edusentir",
+  "webDir": "src/src/renderer",
+  "bundledWebRuntime": false,
+  "server": {
+    "androidScheme": "https"
+  }
+}

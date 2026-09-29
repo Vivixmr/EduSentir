@@ -1,0 +1,11 @@
+{
+  "name": "Edusentir",
+  "short_name": "Edusentir",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#eef5ff",
+  "theme_color": "#0a84ff",
+  "lang": "pt-BR",
+  "description": "Acompanhamento mobile do desenvolvimento de alunos e filhos.",
+  "icons": []
+}

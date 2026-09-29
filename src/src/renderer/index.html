@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0a84ff" />
+    <title>Edusentir</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+  </head>
+  <body>
+    <section id="login-screen" class="login-screen">
+      <div class="login-card">
+        <div class="login-copy">
+          <div class="login-copy-orb login-copy-orb-primary"></div>
+          <div class="login-copy-orb login-copy-orb-secondary"></div>
+          <div class="login-copy-grid"></div>
+          <p class="eyebrow">Acesso ao sistema</p>
+          <p class="login-badge">Painel mobile de acompanhamento</p>
+          <h1>Edusentir</h1>
+          <p>Entre com o usuário administrador para acessar os cadastros, acompanhamentos e relatórios.</p>
+          <div class="login-highlights">
+            <article class="login-highlight-card">
+              <strong>Registros</strong>
+              <span>Acompanhe a evolução com uma visão clara e contínua.</span>
+            </article>
+            <article class="login-highlight-card">
+              <strong>Relatórios</strong>
+              <span>Organize informações importantes em poucos toques.</span>
+            </article>
+          </div>
+        </div>
+
+        <div class="login-panel">
+          <form id="login-form" class="form login-form">
+            <div class="login-form-header">
+              <p class="eyebrow">Entrar</p>
+              <h2>Bem-vindo de volta</h2>
+              <p class="login-form-copy">Use seu acesso para continuar no painel.</p>
+            </div>
+            <label>
+              Usuário
+              <input type="text" name="username" placeholder="Digite seu usuário" required />
+            </label>
+
+            <label>
+              Senha
+              <input type="password" name="password" placeholder="Digite sua senha" required />
+            </label>
+
+            <button type="submit">Entrar</button>
+            <button id="open-public-user-form-button" class="secondary-button login-secondary-action" type="button">
+              Cadastrar usuário
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <div id="app-shell" class="app-shell hidden">
+      <aside class="sidebar">
+        <div>
+          <p class="eyebrow">Acompanhamento integral</p>
+          <h1>Edusentir</h1>
+          <p class="sidebar-copy">
+            Plataforma mobile para acompanhar alunos e filhos, registrando observações e desenvolvimento.
+          </p>
+        </div>
+
+        <nav class="nav-menu">
+          <button class="nav-item active" data-view="dashboard" type="button">Dashboard</button>
+          <button class="nav-item" data-view="cadastro" type="button">Cadastro</button>
+          <button class="nav-item" data-view="acompanhamento" type="button">Acompanhamento</button>
+          <button class="nav-item" data-view="relatorio-aluno" type="button">Relatório do aluno</button>
+          <button class="nav-item" data-view="historico" type="button">Histórico</button>
+          <button class="nav-item" data-view="relatorios" type="button">Cadastros e relatórios</button>
+
+          <div class="mobile-session-card">
+            <p class="sidebar-card-label">Sessão</p>
+            <p id="mobile-session-name">admin</p>
+            <div class="mobile-session-actions">
+              <button id="mobile-settings-button" class="secondary-button mobile-session-button" type="button">
+                Configurações
+              </button>
+              <button id="mobile-logout-button" class="secondary-button mobile-session-button" type="button">
+                Sair do sistema
+              </button>
+            </div>
+          </div>
+        </nav>
+
+        <div class="sidebar-card">
+          <p class="sidebar-card-label">Sessão</p>
+          <p id="current-user-name">Admin</p>
+          <p id="current-user-role" class="hidden"></p>
+          <div class="sidebar-actions">
+            <button id="settings-button" class="secondary-button" type="button">Configurações</button>
+            <button id="logout-button" class="secondary-button" type="button">Sair do sistema</button>
+          </div>
+        </div>
+      </aside>
+
+      <main class="content">
+        <section class="top-ribbon panel">
+          <button type="button" class="ribbon-item is-active" data-view="dashboard">Visão geral</button>
+          <button type="button" class="ribbon-item" data-view="cadastro">Cadastros</button>
+          <button type="button" class="ribbon-item" data-view="acompanhamento">Acompanhamentos</button>
+          <button type="button" class="ribbon-item" data-view="relatorio-aluno">Relatório do aluno</button>
+          <button type="button" class="ribbon-item" data-view="historico">Histórico</button>
+          <button type="button" class="ribbon-item" data-view="relatorios">Relatórios</button>
+        </section>
+
+        <section class="panel hero-panel">
+          <div>
+            <p class="eyebrow">Painel principal</p>
+            <h2>Organize cadastros, acompanhe comportamentos e gere relatórios de desenvolvimento</h2>
+          </div>
+          <div class="hero-stats">
+            <div>
+              <span id="user-count">0</span>
+              <p>usuários cadastrados</p>
+            </div>
+            <div>
+              <span id="student-count">0</span>
+              <p>alunos cadastrados</p>
+            </div>
+            <div>
+              <span id="observation-count">0</span>
+              <p>acompanhamentos</p>
+            </div>
+            <div>
+              <span id="report-count">0</span>
+              <p>relatórios gerados</p>
+            </div>
+          </div>
+        </section>
+
+        <section id="view-dashboard" class="view-section">
+          <section class="dashboard-grid dashboard-grid-top">
+            <article class="panel dashboard-panel">
+              <div class="panel-header compact-header">
+                <div>
+                  <p class="eyebrow">Resumo atual</p>
+                  <h3>Acompanhamentos por periodo</h3>
+                </div>
+              </div>
+              <div id="timeline-chart" class="bar-chart"></div>
+            </article>
+
+            <article class="panel dashboard-panel">
+              <div class="panel-header compact-header">
+                <div>
+                  <p class="eyebrow">Distribuição</p>
+                  <h3>Tipos de suporte</h3>
+                </div>
+              </div>
+              <div id="support-type-list" class="metric-list"></div>
+            </article>
+          </section>
+
+          <section class="dashboard-grid dashboard-grid-bottom">
+            <article class="panel dashboard-panel">
+              <div class="panel-header compact-header">
+                <div>
+                  <p class="eyebrow">Indicadores</p>
+                  <h3>Médias de desenvolvimento</h3>
+                </div>
+              </div>
+              <div id="average-score-grid" class="dashboard-mini-grid"></div>
+            </article>
+
+            <article class="panel dashboard-panel">
+              <div class="panel-header compact-header">
+                <div>
+                  <p class="eyebrow">Equipe</p>
+                  <h3>Perfis cadastrados</h3>
+                </div>
+              </div>
+              <div id="role-distribution" class="metric-list"></div>
+            </article>
+
+            <article class="panel dashboard-panel dashboard-panel-wide">
+              <div class="panel-header compact-header">
+                <div>
+                  <p class="eyebrow">Últimos lançamentos</p>
+                  <h3>Observações recentes</h3>
+                </div>
+              </div>
+              <div id="latest-observations" class="activity-feed"></div>
+            </article>
+          </section>
+        </section>
+
+        <section id="view-cadastro" class="view-section hidden">
+          <div class="subnav">
+            <button class="subnav-item active prominent-subnav-item" data-subview="usuario" type="button">
+              <span class="subnav-title">Cadastrar usuário</span>
+              <span class="subnav-copy">Crie acessos para administradores, professores e responsáveis.</span>
+            </button>
+            <button class="subnav-item prominent-subnav-item" data-subview="aluno" type="button">
+              <span class="subnav-title">Cadastrar aluno</span>
+              <span class="subnav-copy">Registre um novo aluno ou filho para iniciar o acompanhamento.</span>
+            </button>
+          </div>
+
+          <section id="subview-usuario" class="subview-section">
+            <section class="panel">
+              <div class="panel-header">
+                <div>
+                  <p class="eyebrow">Cadastro</p>
+                  <h3>Novo usuário do sistema</h3>
+                </div>
+              </div>
+
+              <form id="user-form" class="form">
+                <div class="form-row">
+                  <label>
+                    Usuário
+                    <input type="text" name="username" placeholder="Ex.: professor.carla" required />
+                  </label>
+
+                  <label>
+                    Perfil
+                    <select name="role" required>
+                      <option value="">Selecione</option>
+                      <option value="teacher">Professor(a)</option>
+                      <option value="parent">Pai/Mãe</option>
+                      <option value="guardian">Responsável</option>
+                      <option value="medical">Médico Responsável</option>
+                    </select>
+                  </label>
+                </div>
+
+                <label>
+                  Nome completo
+                  <input type="text" name="fullName" placeholder="Ex.: Carla Mendes" required />
+                </label>
+
+                <div class="form-row">
+                  <label>
+                    E-mail
+                    <input type="email" name="email" placeholder="carla@email.com" />
+                  </label>
+
+                  <label>
+                    Telefone
+                    <input type="text" name="phone" placeholder="(11) 99999-9999" />
+                  </label>
+                </div>
+
+                <label>
+                  Senha
+                  <input type="password" name="password" placeholder="Defina uma senha" required />
+                </label>
+
+                <button type="submit">Salvar usuário</button>
+              </form>
+            </section>
+          </section>
+
+          <section id="subview-aluno" class="subview-section hidden">
+            <section class="panel">
+              <div class="panel-header">
+                <div>
+                  <p class="eyebrow">Cadastro</p>
+                  <h3>Novo aluno ou filho</h3>
+                </div>
+              </div>
+
+              <form id="student-form" class="form">
+                <label>
+                  Nome completo
+                  <input type="text" name="fullName" placeholder="Ex.: Ana Clara Souza" required />
+                </label>
+
+                <div class="form-row">
+                  <label>
+                    Idade
+                    <input type="number" name="age" min="0" max="120" placeholder="10" />
+                  </label>
+
+                  <label>
+                    Tipo de suporte
+                    <input
+                      type="text"
+                      name="supportType"
+                      placeholder="Deficiencia intelectual, fisica, TEA, multiplas necessidades..."
+                      required
+                    />
+                  </label>
+                </div>
+
+                <label>
+                  Diagnóstico ou observação inicial
+                  <input
+                    type="text"
+                    name="diagnosis"
+                    placeholder="Informação opcional para contextualizar o acompanhamento"
+                  />
+                </label>
+
+                <label>
+                  Responsável principal
+                  <input type="text" name="guardianName" placeholder="Pai, mãe, professor(a), cuidador(a)" required />
+                </label>
+
+                <label>
+                  Metas atuais
+                  <textarea
+                    name="goals"
+                    rows="4"
+                    placeholder="Ex.: melhorar autonomia nas tarefas, ampliar interação social, fortalecer motricidade fina"
+                  ></textarea>
+                </label>
+
+                <button type="submit">Salvar aluno</button>
+              </form>
+            </section>
+          </section>
+        </section>
+
+        <section id="view-acompanhamento" class="view-section hidden">
+          <section class="grid acompanhamento-grid">
+            <section class="panel">
+              <div class="panel-header">
+                <div>
+                  <p class="eyebrow">Acompanhamento</p>
+                  <h3>Registrar nova observação</h3>
+                </div>
+              </div>
+
+              <form id="observation-form" class="form">
+                <label>
+                  Aluno ou filho
+                  <select name="studentId" id="student-selector" required>
+                    <option value="">Selecione</option>
+                  </select>
+                </label>
+
+                <div class="form-row">
+                  <label>
+                    Data
+                    <input type="date" name="date" required />
+                  </label>
+
+                  <label>
+                    Autor do registro
+                    <input type="text" name="author" placeholder="Ex.: Professora Carla" required />
+                  </label>
+                </div>
+
+                <label>
+                  Contexto
+                  <input
+                    type="text"
+                    name="context"
+                    placeholder="Sala de aula, casa, terapia ocupacional, recreação..."
+                  />
+                </label>
+
+                <label>
+                  Comportamentos observados
+                  <textarea
+                    name="behaviorNotes"
+                    rows="4"
+                    placeholder="Descreva comportamentos, reações, interações e desafios percebidos"
+                    required
+                  ></textarea>
+                </label>
+
+                <label>
+                  Avanços percebidos
+                  <textarea
+                    name="progressNotes"
+                    rows="3"
+                    placeholder="Registre pequenos ganhos, respostas positivas e adaptações que funcionaram"
+                  ></textarea>
+                </label>
+
+                <div class="emotions-panel">
+                  <p class="eyebrow">Emocional</p>
+                  <h4>Como o aluno se apresentou neste momento?</h4>
+                  <p class="login-form-copy">Selecione um ou mais estados emocionais observados.</p>
+                  <div class="emotions-grid">
+                    <label class="emotion-option"><input type="checkbox" name="emotions" value="Ansioso" /> <span>Ansioso</span></label>
+                    <label class="emotion-option"><input type="checkbox" name="emotions" value="Assustado" /> <span>Assustado</span></label>
+                    <label class="emotion-option"><input type="checkbox" name="emotions" value="Amoroso" /> <span>Amoroso</span></label>
+                    <label class="emotion-option"><input type="checkbox" name="emotions" value="Brincalhao" /> <span>Brincalhao</span></label>
+                    <label class="emotion-option"><input type="checkbox" name="emotions" value="Calmo" /> <span>Calmo</span></label>
+                    <label class="emotion-option"><input type="checkbox" name="emotions" value="Irritado" /> <span>Irritado</span></label>
+                    <label class="emotion-option"><input type="checkbox" name="emotions" value="Triste" /> <span>Triste</span></label>
+                  </div>
+                </div>
+
+                <div class="score-grid">
+                  <label>
+                    Comunicação (1-5)
+                    <input type="number" name="communicationScore" min="1" max="5" value="3" required />
+                  </label>
+                  <label>
+                    Autonomia (1-5)
+                    <input type="number" name="autonomyScore" min="1" max="5" value="3" required />
+                  </label>
+                  <label>
+                    Interação social (1-5)
+                    <input type="number" name="socialScore" min="1" max="5" value="3" required />
+                  </label>
+                  <label>
+                    Desenvolvimento motor (1-5)
+                    <input type="number" name="motorScore" min="1" max="5" value="3" required />
+                  </label>
+                </div>
+
+                <button type="submit">Registrar observação</button>
+              </form>
+            </section>
+
+          </section>
+        </section>
+
+        <section id="view-historico" class="view-section hidden">
+          <section class="panel">
+            <div class="panel-header">
+              <div>
+                <p class="eyebrow">Histórico</p>
+                <h3>Últimos acompanhamentos</h3>
+              </div>
+            </div>
+
+            <div class="history-filters">
+              <label>
+                Buscar por usuário
+                <input id="observation-search-input" type="text" placeholder="Nome do aluno ou autor" />
+              </label>
+              <label>
+                Filtrar por data
+                <input id="observation-date-filter" type="date" />
+              </label>
+            </div>
+
+            <div class="acompanhamento-history-grid">
+              <div id="observation-history-list" class="observation-history-list"></div>
+              <div id="observation-history-detail" class="report-section history-detail empty-state">
+                Selecione um acompanhamento para visualizar os detalhes.
+              </div>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-header">
+              <div>
+                <p class="eyebrow">Histórico</p>
+                <h3>Últimos cadastros</h3>
+              </div>
+            </div>
+
+            <div class="cadastro-history-grid">
+              <div id="latest-registrations-list" class="observation-history-list"></div>
+              <div id="latest-registrations-detail" class="report-section history-detail empty-state">
+                Selecione um cadastro recente para visualizar os detalhes.
+              </div>
+            </div>
+          </section>
+        </section>
+
+        <section id="view-relatorio-aluno" class="view-section hidden">
+          <section class="grid acompanhamento-grid">
+            <section class="panel">
+              <div class="panel-header">
+                <div>
+                  <p class="eyebrow">Relatório diário</p>
+                  <h3>Bilhete do aluno</h3>
+                </div>
+              </div>
+
+              <form id="daily-report-form" class="form">
+                <label>
+                  Aluno ou filho
+                  <select name="studentId" id="daily-report-student-selector" required>
+                    <option value="">Selecione</option>
+                  </select>
+                </label>
+
+                <label>
+                  Observação do dia
+                  <textarea
+                    name="dailyNotes"
+                    rows="6"
+                    placeholder="Escreva aqui um bilhete do dia para enviar ao pai, mae ou responsavel."
+                    required
+                  ></textarea>
+                </label>
+
+                <button id="generate-daily-report-button" type="submit">Gerar bilhete diário</button>
+              </form>
+            </section>
+
+            <section class="panel report-panel">
+              <div class="panel-header">
+                <div>
+                  <p class="eyebrow">Visualização</p>
+                  <h3>Relatório diário do aluno</h3>
+                </div>
+              </div>
+
+              <div id="daily-report-output" class="report-output empty-state">
+                Selecione um aluno, escreva a observação e gere o bilhete diário.
+              </div>
+            </section>
+          </section>
+        </section>
+
+        <section id="view-relatorios" class="view-section hidden">
+          <section class="grid bottom-grid">
+            <section class="panel">
+              <div class="panel-header">
+                <div>
+                  <p class="eyebrow">Usuários</p>
+                  <h3>Cadastros do sistema</h3>
+                </div>
+              </div>
+              <div id="users-list" class="students-list"></div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-header">
+                <div>
+                  <p class="eyebrow">Alunos</p>
+                  <h3>Cadastros acompanhados</h3>
+                </div>
+              </div>
+              <div id="students-list" class="students-list"></div>
+            </section>
+          </section>
+
+          <section class="panel report-panel">
+            <div class="panel-header">
+              <div>
+                <p class="eyebrow">Relatório</p>
+                <h3>Evolução do desenvolvimento</h3>
+              </div>
+              <div class="report-actions">
+                <select id="report-selector">
+                  <option value="">Selecione um cadastro</option>
+                </select>
+                <button id="generate-report-button" type="button">Gerar PDF</button>
+              </div>
+            </div>
+
+            <div id="report-output" class="report-output empty-state">
+              Escolha um cadastro para gerar um panorama do desenvolvimento.
+            </div>
+          </section>
+        </section>
+      </main>
+
+      <button id="mobile-menu-button" class="mobile-menu-button hidden" type="button" aria-label="Abrir menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <button id="mobile-menu-backdrop" class="mobile-menu-backdrop hidden" type="button" aria-label="Fechar menu"></button>
+    </div>
+
+    <div id="settings-modal" class="settings-modal hidden">
+      <div id="settings-backdrop" class="settings-backdrop"></div>
+      <section class="settings-panel">
+        <div class="panel-header">
+          <div>
+            <p class="eyebrow">Preferências</p>
+            <h3>Configurações básicas</h3>
+          </div>
+          <button id="close-settings-button" class="secondary-button" type="button">Fechar</button>
+        </div>
+
+        <div class="settings-grid">
+          <section class="settings-section">
+            <h4>Aparência</h4>
+
+            <label class="settings-field">
+              Tema do sistema
+              <select id="theme-select">
+                <option value="light">Claro</option>
+                <option value="dark">Escuro</option>
+              </select>
+            </label>
+
+            <label class="settings-field">
+              Tamanho da fonte
+              <select id="font-size-select">
+                <option value="0.95">Pequena</option>
+                <option value="1">Padrão</option>
+                <option value="1.1">Grande</option>
+                <option value="1.2">Muito grande</option>
+              </select>
+            </label>
+
+            <label class="settings-switch">
+              <input id="reduced-motion-toggle" type="checkbox" />
+              <span>Reduzir animações</span>
+            </label>
+
+            <label class="settings-switch">
+              <input id="compact-mode-toggle" type="checkbox" />
+              <span>Modo compacto</span>
+            </label>
+
+            <label class="settings-switch">
+              <input id="high-contrast-toggle" type="checkbox" />
+              <span>Maior contraste</span>
+            </label>
+          </section>
+
+          <section class="settings-section">
+            <h4>Fluxo do sistema</h4>
+
+            <label class="settings-switch">
+              <input id="open-dashboard-toggle" type="checkbox" checked />
+              <span>Abrir no dashboard ao entrar</span>
+            </label>
+
+            <label class="settings-switch">
+              <input id="show-top-ribbon-toggle" type="checkbox" checked />
+              <span>Mostrar menu superior</span>
+            </label>
+
+            <button id="reset-settings-button" class="secondary-button settings-reset" type="button">
+              Restaurar configurações padrão
+            </button>
+          </section>
+        </div>
+
+        <section id="admin-settings-section" class="settings-section admin-settings hidden">
+          <h4>Administração de usuários</h4>
+          <p>Disponível apenas para o perfil administrador.</p>
+          <div class="settings-inline">
+            <select id="delete-user-select">
+              <option value="">Selecione um usuário</option>
+            </select>
+            <button id="delete-user-button" type="button">Excluir usuário</button>
+          </div>
+
+          <h4 class="settings-subtitle">Administração de alunos</h4>
+          <p>Exclui o aluno e seus registros de acompanhamento e relatórios.</p>
+          <div class="settings-inline">
+            <select id="delete-student-select">
+              <option value="">Selecione um aluno</option>
+            </select>
+            <button id="delete-student-button" type="button">Excluir aluno</button>
+          </div>
+        </section>
+      </section>
+    </div>
+
+    <div id="public-user-modal" class="settings-modal hidden">
+      <div id="public-user-backdrop" class="settings-backdrop"></div>
+      <section class="settings-panel">
+        <div class="panel-header">
+          <div>
+            <p class="eyebrow">Criar acesso</p>
+            <h3>Novo usuário</h3>
+          </div>
+          <button id="close-public-user-button" class="secondary-button" type="button">Fechar</button>
+        </div>
+
+        <form id="public-user-form" class="form login-register-form">
+          <div class="form-row">
+            <label>
+              Usuário
+              <input type="text" name="username" placeholder="Ex.: professor.carla" required />
+            </label>
+
+            <label>
+              Perfil
+              <select name="role" required>
+                <option value="">Selecione</option>
+                <option value="teacher">Professor(a)</option>
+                <option value="parent">Pai/Mãe</option>
+                <option value="guardian">Responsável</option>
+                <option value="medical">Médico Responsável</option>
+              </select>
+            </label>
+          </div>
+
+          <label>
+            Nome completo
+            <input type="text" name="fullName" placeholder="Ex.: Carla Mendes" required />
+          </label>
+
+          <div class="form-row">
+            <label>
+              E-mail
+              <input type="email" name="email" placeholder="carla@email.com" />
+            </label>
+
+            <label>
+              Telefone
+              <input type="text" name="phone" placeholder="(11) 99999-9999" />
+            </label>
+          </div>
+
+          <label>
+            Senha
+            <input type="password" name="password" placeholder="Crie uma senha" required />
+          </label>
+
+          <button type="submit">Cadastrar usuário</button>
+        </form>
+      </section>
+    </div>
+
+    <div id="report-viewer-modal" class="report-viewer-modal hidden">
+      <div id="report-viewer-backdrop" class="settings-backdrop"></div>
+      <section class="report-viewer-panel">
+        <div class="panel-header">
+          <div>
+            <p class="eyebrow">Relatório</p>
+            <h3>Visualização do relatório</h3>
+          </div>
+          <div class="report-viewer-actions">
+            <button id="report-save-button" class="secondary-button" type="button">Salvar PDF</button>
+            <button id="report-share-button" class="secondary-button" type="button">Compartilhar PDF</button>
+            <button id="report-close-button" class="secondary-button" type="button">Voltar ao app</button>
+          </div>
+        </div>
+        <iframe id="report-viewer-frame" title="Visualização do relatório"></iframe>
+      </section>
+    </div>
+
+    <div id="toast" class="toast hidden"></div>
+
+    <script src="./vendor/jspdf.umd.min.js"></script>
+    <script src="./mobile-api.js"></script>
+    <script src="./app-main.js"></script>
+  </body>
+</html>

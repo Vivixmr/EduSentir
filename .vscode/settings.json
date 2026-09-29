@@ -1,0 +1,43 @@
+{
+  "java.jdt.ls.java.home": "C:\\Program Files\\Android\\Android Studio\\jbr",
+  "java.import.gradle.java.home": "C:\\Program Files\\Android\\Android Studio\\jbr",
+  "java.import.gradle.wrapper.enabled": true,
+  "java.import.gradle.enabled": true,
+  "java.import.exclusions": [
+    "**/node_modules/**",
+    "**/.gradle/**",
+    "**/build/**"
+  ],
+  "java.project.importExclusions": [
+    "**/node_modules/**",
+    "**/.gradle/**",
+    "**/build/**"
+  ],
+  "java.project.resourceFilters": [
+    "node_modules",
+    ".gradle",
+    "build"
+  ],
+  "java.configuration.runtimes": [
+    {
+      "name": "JavaSE-21",
+      "path": "C:\\Program Files\\Android\\Android Studio\\jbr",
+      "default": true
+    }
+  ],
+  "java.configuration.updateBuildConfiguration": "automatic",
+  "files.exclude": {
+    "**/node_modules/@capacitor/*/android/.gradle": true,
+    "**/node_modules/@capacitor/*/android/build": true
+  },
+  "files.watcherExclude": {
+    "**/node_modules/**": true,
+    "**/.gradle/**": true,
+    "**/build/**": true
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/.gradle": true,
+    "**/build": true
+  }
+}
